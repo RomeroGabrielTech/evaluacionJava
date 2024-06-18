@@ -1,35 +1,26 @@
 package evaluacionJava.service;
 
 import evaluacionJava.model.User;
+import evaluacionJava.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import evaluacionJava.repository.UserRepository;
-import evaluacionJava.util.JwtUtil;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 public class UserServiceTest {
 
-    @InjectMocks
-    private UserService userService;
-
     @Mock
     private UserRepository userRepository;
 
-    @Mock
-    private PasswordEncoder passwordEncoder;
-
-    @Mock
-    private JwtUtil jwtUtil;
+    @InjectMocks
+    private UserService userService;
 
     @BeforeEach
     public void setUp() {
@@ -38,23 +29,28 @@ public class UserServiceTest {
 
     @Test
     public void testRegisterUser() {
-        // Crear un usuario de prueba
         User user = new User();
-        user.setEmail("test@example.com");
-        user.setPassword("plainPassword");
+        user.setName("Juan Rodriguez");
+        user.setEmail("juan@rodriguez.org");
+        user.setPassword("hunter2");
 
-        // Configurar los mocks
-        when(userRepository.findByEmail(any())).thenReturn(Optional.empty());
-        when(passwordEncoder.encode(any())).thenReturn("encryptedPassword");
-        when(jwtUtil.generateToken(any())).thenReturn("dummyToken");
-        when(userRepository.save(any(User.class))).thenReturn(user);
+        when(userRepository.save(user)).thenReturn(user);
 
-        // Llamar al método que estamos probando
         User registeredUser = userService.registerUser(user);
 
-        // Verificar los resultados
-        assertNotNull(registeredUser);
-        assertEquals("encryptedPassword", registeredUser.getPassword());
-        assertEquals("dummyToken", registeredUser.getToken());
+        assertEquals(user, registeredUser);
+    }
+
+    @Test
+    public void testFindUserByEmail() {
+        User user = new User();
+        user.setName("Juan Rodriguez");
+        user.setEmail("juan@rodriguez.org");
+
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(user));
+
+        Optional<User> foundUser = userService.findByEmail("juan@rodriguez.org");
+
+        assertEquals(user, foundUser.orElse(null));
     }
 }

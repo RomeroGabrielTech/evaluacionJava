@@ -1,57 +1,49 @@
 package evaluacionJava.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-
 @Entity
-@ApiModel(description = "Detalles sobre el usuario") // Describe la entidad
+@Table(name = "users")
+@Schema(description = "Detalles de un usuario")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @ApiModelProperty(notes = "El ID único del usuario, generado automáticamente")
+    @Schema(description = "ID del usuario", example = "1", required = true)
     private UUID id;
 
-    @ApiModelProperty(notes = "Nombre del usuario")
+    @Schema(description = "Nombre del usuario", example = "John Doe", required = true)
     private String name;
 
-    @ApiModelProperty(notes = "Correo electrónico del usuario, debe ser único")
+    @Schema(description = "Email del usuario", example = "john.doe@example.com", required = true)
     private String email;
 
-    @ApiModelProperty(notes = "Contraseña del usuario, almacenada en forma segura")
+    @Schema(description = "Contraseña del usuario", example = "password123", required = true)
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-    @ApiModelProperty(notes = "Lista de teléfonos asociados al usuario")
+    @ElementCollection
+    @Schema(description = "Lista de teléfonos del usuario")
     private List<Phone> phones;
 
-    @CreationTimestamp
-    @ApiModelProperty(notes = "Fecha y hora de creación del usuario")
+    @Schema(description = "Fecha de creación del usuario")
     private LocalDateTime created;
 
-    @UpdateTimestamp
-    @ApiModelProperty(notes = "Fecha y hora de la última modificación del usuario")
+    @Schema(description = "Fecha de modificación del usuario")
     private LocalDateTime modified;
 
-    @ApiModelProperty(notes = "Fecha y hora del último ingreso del usuario")
+    @Schema(description = "Último inicio de sesión del usuario")
     private LocalDateTime lastLogin;
 
-    @ApiModelProperty(notes = "Token de sesión para autenticación")
+    @Schema(description = "Token del usuario")
     private String token;
 
-    @ApiModelProperty(notes = "Estado de actividad del usuario")
+    @Schema(description = "Indica si el usuario está activo")
     private Boolean isActive;
 
-    // Getters y setters
-
-
+    // Getters y Setters
     public UUID getId() {
         return id;
     }

@@ -1,43 +1,21 @@
 package evaluacionJava.model;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import jakarta.persistence.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Embeddable;
 
-@Entity
-@ApiModel(description = "Detalles sobre el teléfono del usuario") // Describe la entidad
+@Embeddable
+@Schema(description = "Detalles del teléfono del usuario")
 public class Phone {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @ApiModelProperty(notes = "El ID único del teléfono, generado automáticamente")
-    private Long id;
-
-    @ApiModelProperty(notes = "Número de teléfono")
+    @Schema(description = "Número de teléfono", example = "123456789", required = true)
     private String number;
 
-    @ApiModelProperty(notes = "Código de ciudad del número de teléfono")
-    private String cityCode;
+    @Schema(description = "Código de la ciudad", example = "1", required = true)
+    private String citycode;
 
-    @ApiModelProperty(notes = "Código de país del número de teléfono")
-    private String countryCode;
+    @Schema(description = "Código del país", example = "44", required = true)
+    private String contrycode;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    @ApiModelProperty(notes = "Usuario al que pertenece este teléfono")
-    private User user;
-
-    // Getters y setters
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    // Getters y Setters
     public String getNumber() {
         return number;
     }
@@ -46,27 +24,19 @@ public class Phone {
         this.number = number;
     }
 
-    public String getCityCode() {
-        return cityCode;
+    public String getCitycode() {
+        return citycode;
     }
 
-    public void setCityCode(String cityCode) {
-        this.cityCode = cityCode;
+    public void setCitycode(String citycode) {
+        this.citycode = citycode;
     }
 
-    public String getCountryCode() {
-        return countryCode;
+    public String getContrycode() {
+        return contrycode;
     }
 
-    public void setCountryCode(String countryCode) {
-        this.countryCode = countryCode;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    public void setContrycode(String contrycode) {
+        this.contrycode = contrycode;
     }
 }

@@ -9,5 +9,4 @@ class EvaluacionJavaNisumApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
