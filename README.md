@@ -123,7 +123,7 @@ La aplicación permite registrar y autenticar usuarios. Los usuarios pueden inic
 ## Swagger
 
 Swagger se utiliza para documentar la API. Una vez que la aplicación esté en ejecución, puedes acceder a la documentación
-de la API en http://localhost:8080/swagger-ui.html.
+de la API en http://localhost:8080/custom-swagger-ui.html.
 
 ## Autor
 
